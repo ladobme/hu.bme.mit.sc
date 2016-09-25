@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: hu.bme.mit.onlab.scdse
+Bundle-SymbolicName: hu.bme.mit.onlab.scdse;singleton:=true
+Bundle-Version: 0.0.1.qualifier
+Require-Bundle: org.eclipse.emf.ecore,
+ com.google.guava,
+ org.eclipse.viatra.dse;bundle-version="0.14.0"
+Import-Package: hu.bme.mit.onlab.scquery,
+ hu.bme.mit.onlab.scquery.util,
+ org.apache.log4j,
+ org.eclipse.emf.ecore.xmi.impl,
+ org.junit;version="4.12.0",
+ sc.stateChart
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

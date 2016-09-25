@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stateChart:StateMachine xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stateChart="http://www.example.org/stateChart">
+  <mainRegion>
+    <transient name="Create - Start" trigger="" guard="" source="//@mainRegion/@vertex.0" target="//@mainRegion/@vertex.1"/>
+    <transient name="Start - Resume" source="//@mainRegion/@vertex.1" target="//@mainRegion/@vertex.2"/>
+    <transient name="Resume - Running" source="//@mainRegion/@vertex.2" target="//@mainRegion/@vertex.3"/>
+    <transient name="Running - Pause" trigger="Another activity comes foreground" source="//@mainRegion/@vertex.3" target="//@mainRegion/@vertex.5"/>
+    <transient name="Pause - Killed" trigger="OS need memory" guard="" source="//@mainRegion/@vertex.5" target="//@mainRegion/@vertex.9" priority="3"/>
+    <transient name="Pause - Resume" trigger="Activity comes foreground " source="//@mainRegion/@vertex.5" target="//@mainRegion/@vertex.2" priority="2"/>
+    <transient name="Pause - Stop" trigger="Activity invisible" guard="" source="//@mainRegion/@vertex.5" target="//@mainRegion/@vertex.6" priority="1"/>
+    <transient name="Stop - Killed" trigger="OS need more memory" source="//@mainRegion/@vertex.6" target="//@mainRegion/@vertex.9" priority="3"/>
+    <transient name="Stop - Restart" trigger="Activity comes to the foreground" source="//@mainRegion/@vertex.6" target="//@mainRegion/@vertex.8" priority="2"/>
+    <transient name="Stop - Destroy" source="//@mainRegion/@vertex.6" target="//@mainRegion/@vertex.7" priority="1"/>
+    <transient name="Killed - Create" trigger="User navigates back to the activity " source="//@mainRegion/@vertex.9" target="//@mainRegion/@vertex.0"/>
+    <transient name="Restart -Start" trigger="" source="//@mainRegion/@vertex.8" target="//@mainRegion/@vertex.1"/>
+    <transient name="Destroy - Shut down" source="//@mainRegion/@vertex.7" target="//@mainRegion/@vertex.10"/>
+    <vertex xsi:type="stateChart:SimpleState" name="onCreate" isActive="true"/>
+    <vertex xsi:type="stateChart:SimpleState" name="onStart"/>
+    <vertex xsi:type="stateChart:SimpleState" name="onResume"/>
+    <vertex xsi:type="stateChart:SimpleState" name="Running"/>
+    <vertex xsi:type="stateChart:SimpleState" name="Start"/>
+    <vertex xsi:type="stateChart:SimpleState" name="onPause"/>
+    <vertex xsi:type="stateChart:SimpleState" name="onStop"/>
+    <vertex xsi:type="stateChart:SimpleState" name="onDestroy" entry=""/>
+    <vertex xsi:type="stateChart:SimpleState" name="onRestart"/>
+    <vertex xsi:type="stateChart:SimpleState" name="Killed"/>
+    <vertex xsi:type="stateChart:SimpleState" name="Shut down"/>
+  </mainRegion>
+</stateChart:StateMachine>

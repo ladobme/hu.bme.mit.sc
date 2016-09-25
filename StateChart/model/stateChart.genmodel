@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/StateChart/src" modelPluginID="StateChart" modelName="StateChart"
+    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>stateChart.ecore</foreignModel>
+  <genPackages prefix="StateChart" basePackage="sc" disposableProviderFactory="true"
+      ecorePackage="stateChart.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="stateChart.ecore#//PseudoStateType">
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/Initial"/>
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/Terminate"/>
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/EntryPoint"/>
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/ExitPoint"/>
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/Choice"/>
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/Join"/>
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/Fork"/>
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/Junction"/>
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/ShadowHistory"/>
+      <genEnumLiterals ecoreEnumLiteral="stateChart.ecore#//PseudoStateType/DeepHistory"/>
+    </genEnums>
+    <genClasses ecoreClass="stateChart.ecore#//Vertex">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Vertex/note"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Vertex/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Vertex/isActive"/>
+    </genClasses>
+    <genClasses ecoreClass="stateChart.ecore#//PseudoState">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//PseudoState/PseudoStateType"/>
+    </genClasses>
+    <genClasses ecoreClass="stateChart.ecore#//State">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//State/entry"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//State/exit"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//State/action"/>
+    </genClasses>
+    <genClasses ecoreClass="stateChart.ecore#//SimpleState"/>
+    <genClasses ecoreClass="stateChart.ecore#//FinalState"/>
+    <genClasses ecoreClass="stateChart.ecore#//Region">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Region/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Region/note"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference stateChart.ecore#//Region/transient"/>
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference stateChart.ecore#//Region/vertex"/>
+    </genClasses>
+    <genClasses ecoreClass="stateChart.ecore#//Transient">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Transient/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Transient/trigger"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Transient/guard"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Transient/effect"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference stateChart.ecore#//Transient/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference stateChart.ecore#//Transient/target"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//Transient/priority"/>
+    </genClasses>
+    <genClasses ecoreClass="stateChart.ecore#//StateMachine">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference stateChart.ecore#//StateMachine/mainRegion"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute stateChart.ecore#//StateMachine/name"/>
+    </genClasses>
+    <genClasses ecoreClass="stateChart.ecore#//CompositeState">
+      <genFeatures children="true" createChild="true" propertySortChoices="true" ecoreFeature="ecore:EReference stateChart.ecore#//CompositeState/element"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

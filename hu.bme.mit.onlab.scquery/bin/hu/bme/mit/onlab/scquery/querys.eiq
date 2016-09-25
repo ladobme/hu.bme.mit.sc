@@ -1,0 +1,66 @@
+package hu.bme.mit.onlab.scquery
+
+import "http://www.eclipse.org/emf/2002/Ecore"
+import "http://www.example.org/stateChart"
+
+pattern allItem(EObject)= {
+	EObject(EObject);
+}
+
+pattern transientTriggers(type, trigger) = {
+	Transient(type);
+	Transient.trigger(type,trigger);
+	trigger!="";
+}
+
+pattern statesWithMoreTransient(state:State) = {
+	Transient.source(t1, state);
+	Transient.source(t2, state);
+	t1!=t2;
+}
+
+pattern neighbourState(s1,s2:State) = {
+	Transient.source(t,s1);
+	Transient.target(t,s2);
+}
+pattern invalidTerminateStates(state) = {
+	PseudoState(state);
+	PseudoState.PseudoStateType(state, PseudoStateType::Terminate);
+	find neighbourState(state, _s);
+}
+
+pattern entryPoint(ep) = {
+	PseudoState.PseudoStateType(ep, PseudoStateType::EntryPoint);
+}
+
+pattern entryPointInRegion(region, epoints) = {
+	Region.vertex(region,velement);
+	find entryPoint(epoints);
+	velement == epoints;
+}
+
+pattern regionWithMultipleEntryPoint(name) = {
+	Region(name);
+	N == count find entryPointInRegion(name, _epoints);
+	check (N > 1);
+}
+
+pattern higherPriorityTransient(state:State, t1:Transient, t2:Transient) ={
+	Transient.source(t1, state);
+	Transient.source(t2, state);
+	Transient.priority(t1, p1);
+	Transient.priority(t2, p2);
+	check (p1 > p2);
+}
+
+pattern activeState(active:State, transient : Transient) = {
+	State.isActive(active, true);
+	Transient.source(transient, active);
+//	neg find higherPriorityTransient(active, _tx, transient);	
+}
+
+pattern hardObject(shutdown:State) = {
+	State.name(shutdown, "Shut down");
+	State.isActive(shutdown, true);
+}
+
