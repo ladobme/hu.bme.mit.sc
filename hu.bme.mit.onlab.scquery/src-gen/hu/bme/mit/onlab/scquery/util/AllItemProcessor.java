@@ -1,8 +1,11 @@
+/**
+ * Generated from platform:/resource/hu.bme.mit.onlab.scquery/src/hu/bme/mit/onlab/scquery/querys.vql
+ */
 package hu.bme.mit.onlab.scquery.util;
 
 import hu.bme.mit.onlab.scquery.AllItemMatch;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.incquery.runtime.api.IMatchProcessor;
+import org.eclipse.viatra.query.runtime.api.IMatchProcessor;
 
 /**
  * A match processor tailored for the hu.bme.mit.onlab.scquery.allItem pattern.

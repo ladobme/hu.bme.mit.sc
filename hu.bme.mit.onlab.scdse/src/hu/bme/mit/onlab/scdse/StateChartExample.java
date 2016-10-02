@@ -1,39 +1,28 @@
 package hu.bme.mit.onlab.scdse;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.Map;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
-import org.eclipse.viatra.query.runtime.exception.ViatraQueryException;
-import org.eclipse.viatra.dse.api.DSETransformationRule;
 import org.eclipse.viatra.dse.api.DesignSpaceExplorer;
 import org.eclipse.viatra.dse.api.Objectives;
 import org.eclipse.viatra.dse.api.Strategies;
-import org.eclipse.viatra.dse.api.strategy.impl.DepthFirstStrategy;
-//import org.eclipse.viatra.dse.api.strategy.impl.ParallelBFSStrategy;
-//import org.eclipse.viatra.dse.objectives.impl.ModelQueriesHardObjective;
-import org.eclipse.viatra.dse.objectives.impl.ConstraintsObjective;
-import org.eclipse.viatra.dse.statecoding.simple.SimpleStateCoderFactory;
+import org.eclipse.viatra.query.runtime.exception.ViatraQueryException;
+import org.eclipse.viatra.transformation.runtime.emf.rules.batch.BatchTransformationRuleFactory;
 import org.junit.Test;
 
-import hu.bme.mit.onlab.scquery.ActiveStateMatch;
-import hu.bme.mit.onlab.scquery.ActiveStateMatcher;
-import hu.bme.mit.onlab.scquery.util.ActiveStateProcessor;
-import hu.bme.mit.onlab.scquery.util.ActiveStateQuerySpecification;
 import hu.bme.mit.onlab.scquery.util.HardObjectQuerySpecification;
-import sc.stateChart.State;
 import sc.stateChart.StateMachine;
-import sc.stateChart.Transient;
 
 public class StateChartExample {
 	
-	private DSETransformationRule<?, ?> activeStateRule;
+	private BatchTransformationRuleFactory activeStateRule;
 	private DesignSpaceExplorer dse;
 	private EObject root;
 	
@@ -58,11 +47,21 @@ public class StateChartExample {
 	    dse.setInitialModel(root);
 	    dse.addMetaModelPackage(root.eClass().getEPackage());
 	    dse.setStateCoderFactory(new StateChartCoderFactory());
-	    //dse.setStateCoderFactory(new SimpleStateCoderFactory(dse.getMetaModelPackages()));
 	    
-	    Logger.getLogger(ParallelBFSStrategy.class).setLevel(Level.DEBUG);
+	    StateChartCoderGenerator gen = new StateChartCoderGenerator();
+	    gen.listAllState(false);
+	    gen.setSeparator('-');
+	    try {
+			PrintWriter out = new PrintWriter("teszt.txt");
+			out.println(gen.createCoder("GeneratedCoder"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	    
-	    activeStateRule = new DSETransformationRule<ActiveStateMatch, ActiveStateMatcher>(
+	    /* - old activeStateRule
+	     * activeStateRule = new DSETransformationRule<ActiveStateMatch, ActiveStateMatcher>(
 	    		ActiveStateQuerySpecification.instance(), new ActiveStateProcessor() {
 
 					@Override
@@ -71,15 +70,16 @@ public class StateChartExample {
 						pActivestate.setIsActive(false);
 						pTransient.getTarget().setIsActive(true);
 					}
-	            });
-	    dse.addTransformationRule(activeStateRule);
+	            });*/
+	    		 
+	    dse.addTransformationRule(new ScRuleProvider().activeStateRule);
 	    
 	    /*dse.addObjective(new BaseObjective("MyHardObjective")
 	    	    .withConstraint(HardObjectQuerySpecification.instance()));*/
 	    dse.addObjective(Objectives.createConstraintsObjective("MyHardObjective")
-	    		.withHardConstraint(/*???*/);
+	    		.withHardConstraint(HardObjectQuerySpecification.instance()));
 	    
-	    dse.startExploration(Strategies.createBFSStrategy());
+	    dse.startExploration(Strategies.createBfsStrategy());
 	    System.out.println(dse.toStringSolutions());
 	    
 	}

@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?><plugin>
-                                         <extension
-                                               point="org.eclipse.viatra.query.runtime.queryspecification">
-                                         </extension>
+  <extension point="org.eclipse.viatra.query.runtime.queryspecification"/>
+  <extension id="hu.bme.mit.onlab.scquery.Querys" point="org.eclipse.viatra.query.runtime.queryspecification">
+    <group group="org.eclipse.viatra.query.runtime.extensibility.SingletonExtensionFactory:hu.bme.mit.onlab.scquery.Querys" id="hu.bme.mit.onlab.scquery.Querys">
+      <query-specification fqn="hu.bme.mit.onlab.scquery.allItem"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.transientTriggers"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.statesWithMoreTransient"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.neighbourState"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.invalidTerminateStates"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.entryPoint"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.entryPointInRegion"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.regionWithMultipleEntryPoint"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.higherPriorityTransient"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.activeState"/>
+      <query-specification fqn="hu.bme.mit.onlab.scquery.hardObject"/>
+    </group>
+  </extension>
 </plugin>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.eclipse.viatra.transformation.runtime.emf.rules.batch.BatchTransformationRuleFactory"/>
+<fullyQualifiedTypeName name="hu.bme.mit.onlab.scdse.StateChartCoderGenerator"/>
+<fullyQualifiedTypeName name="java.io.PrintWriter"/>
+</qualifiedTypeNameHistroy>

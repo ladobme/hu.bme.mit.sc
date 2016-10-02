@@ -1,11 +1,14 @@
+/**
+ * Generated from platform:/resource/hu.bme.mit.onlab.scquery/src/hu/bme/mit/onlab/scquery/querys.vql
+ */
 package hu.bme.mit.onlab.scquery;
 
 import hu.bme.mit.onlab.scquery.util.NeighbourStateQuerySpecification;
 import java.util.Arrays;
 import java.util.List;
-import org.eclipse.incquery.runtime.api.IPatternMatch;
-import org.eclipse.incquery.runtime.api.impl.BasePatternMatch;
-import org.eclipse.incquery.runtime.exception.IncQueryException;
+import org.eclipse.viatra.query.runtime.api.IPatternMatch;
+import org.eclipse.viatra.query.runtime.api.impl.BasePatternMatch;
+import org.eclipse.viatra.query.runtime.exception.ViatraQueryException;
 import sc.stateChart.State;
 import sc.stateChart.Vertex;
 
@@ -54,11 +57,11 @@ public abstract class NeighbourStateMatch extends BasePatternMatch {
   public boolean set(final String parameterName, final Object newValue) {
     if (!isMutable()) throw new java.lang.UnsupportedOperationException();
     if ("s1".equals(parameterName) ) {
-    	this.fS1 = (sc.stateChart.Vertex) newValue;
+    	this.fS1 = (Vertex) newValue;
     	return true;
     }
     if ("s2".equals(parameterName) ) {
-    	this.fS2 = (sc.stateChart.State) newValue;
+    	this.fS2 = (State) newValue;
     	return true;
     }
     return false;
@@ -141,7 +144,7 @@ public abstract class NeighbourStateMatch extends BasePatternMatch {
   public NeighbourStateQuerySpecification specification() {
     try {
     	return NeighbourStateQuerySpecification.instance();
-    } catch (IncQueryException ex) {
+    } catch (ViatraQueryException ex) {
      	// This cannot happen, as the match object can only be instantiated if the query specification exists
      	throw new IllegalStateException (ex);
     }

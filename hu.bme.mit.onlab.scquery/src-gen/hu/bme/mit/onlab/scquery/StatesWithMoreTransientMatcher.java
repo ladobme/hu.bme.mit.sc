@@ -1,3 +1,6 @@
+/**
+ * Generated from platform:/resource/hu.bme.mit.onlab.scquery/src/hu/bme/mit/onlab/scquery/querys.vql
+ */
 package hu.bme.mit.onlab.scquery;
 
 import hu.bme.mit.onlab.scquery.StatesWithMoreTransientMatch;
@@ -6,22 +9,21 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.incquery.runtime.api.IMatchProcessor;
-import org.eclipse.incquery.runtime.api.IQuerySpecification;
-import org.eclipse.incquery.runtime.api.IncQueryEngine;
-import org.eclipse.incquery.runtime.api.impl.BaseMatcher;
-import org.eclipse.incquery.runtime.exception.IncQueryException;
-import org.eclipse.incquery.runtime.matchers.tuple.Tuple;
-import org.eclipse.incquery.runtime.util.IncQueryLoggingUtil;
+import org.eclipse.viatra.query.runtime.api.IMatchProcessor;
+import org.eclipse.viatra.query.runtime.api.IQuerySpecification;
+import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine;
+import org.eclipse.viatra.query.runtime.api.impl.BaseMatcher;
+import org.eclipse.viatra.query.runtime.exception.ViatraQueryException;
+import org.eclipse.viatra.query.runtime.matchers.tuple.Tuple;
+import org.eclipse.viatra.query.runtime.util.ViatraQueryLoggingUtil;
 import sc.stateChart.State;
 
 /**
  * Generated pattern matcher API of the hu.bme.mit.onlab.scquery.statesWithMoreTransient pattern,
  * providing pattern-specific query methods.
  * 
- * <p>Use the pattern matcher on a given model via {@link #on(IncQueryEngine)},
- * e.g. in conjunction with {@link IncQueryEngine#on(Notifier)}.
+ * <p>Use the pattern matcher on a given model via {@link #on(ViatraQueryEngine)},
+ * e.g. in conjunction with {@link ViatraQueryEngine#on(Notifier)}.
  * 
  * <p>Matches of the pattern will be represented as {@link StatesWithMoreTransientMatch}.
  * 
@@ -42,56 +44,48 @@ import sc.stateChart.State;
 @SuppressWarnings("all")
 public class StatesWithMoreTransientMatcher extends BaseMatcher<StatesWithMoreTransientMatch> {
   /**
-   * Initializes the pattern matcher within an existing EMF-IncQuery engine.
+   * Initializes the pattern matcher within an existing VIATRA Query engine.
    * If the pattern matcher is already constructed in the engine, only a light-weight reference is returned.
    * The match set will be incrementally refreshed upon updates.
-   * @param engine the existing EMF-IncQuery engine in which this matcher will be created.
-   * @throws IncQueryException if an error occurs during pattern matcher creation
+   * @param engine the existing VIATRA Query engine in which this matcher will be created.
+   * @throws ViatraQueryException if an error occurs during pattern matcher creation
    * 
    */
-  public static StatesWithMoreTransientMatcher on(final IncQueryEngine engine) throws IncQueryException {
+  public static StatesWithMoreTransientMatcher on(final ViatraQueryEngine engine) throws ViatraQueryException {
     // check if matcher already exists
     StatesWithMoreTransientMatcher matcher = engine.getExistingMatcher(querySpecification());
     if (matcher == null) {
-    	matcher = new StatesWithMoreTransientMatcher(engine);
-    	// do not have to "put" it into engine.matchers, reportMatcherInitialized() will take care of it
+    	matcher = (StatesWithMoreTransientMatcher)engine.getMatcher(querySpecification());
     }
     return matcher;
   }
   
-  private final static int POSITION_STATE = 0;
-  
-  private final static Logger LOGGER = IncQueryLoggingUtil.getLogger(StatesWithMoreTransientMatcher.class);
-  
   /**
-   * Initializes the pattern matcher over a given EMF model root (recommended: Resource or ResourceSet).
-   * If a pattern matcher is already constructed with the same root, only a light-weight reference is returned.
-   * The scope of pattern matching will be the given EMF model root and below (see FAQ for more precise definition).
-   * The match set will be incrementally refreshed upon updates from this scope.
-   * <p>The matcher will be created within the managed {@link IncQueryEngine} belonging to the EMF model root, so
-   * multiple matchers will reuse the same engine and benefit from increased performance and reduced memory footprint.
-   * @param emfRoot the root of the EMF containment hierarchy where the pattern matcher will operate. Recommended: Resource or ResourceSet.
-   * @throws IncQueryException if an error occurs during pattern matcher creation
-   * @deprecated use {@link #on(IncQueryEngine)} instead, e.g. in conjunction with {@link IncQueryEngine#on(Notifier)}
-   * 
-   */
-  @Deprecated
-  public StatesWithMoreTransientMatcher(final Notifier emfRoot) throws IncQueryException {
-    this(IncQueryEngine.on(emfRoot));
-  }
-  
-  /**
-   * Initializes the pattern matcher within an existing EMF-IncQuery engine.
+   * Initializes the pattern matcher within an existing VIATRA Query engine.
    * If the pattern matcher is already constructed in the engine, only a light-weight reference is returned.
    * The match set will be incrementally refreshed upon updates.
-   * @param engine the existing EMF-IncQuery engine in which this matcher will be created.
-   * @throws IncQueryException if an error occurs during pattern matcher creation
-   * @deprecated use {@link #on(IncQueryEngine)} instead
+   * @param engine the existing VIATRA Query engine in which this matcher will be created.
+   * @throws ViatraQueryException if an error occurs during pattern matcher creation
    * 
    */
-  @Deprecated
-  public StatesWithMoreTransientMatcher(final IncQueryEngine engine) throws IncQueryException {
-    super(engine, querySpecification());
+  public static StatesWithMoreTransientMatcher create() throws ViatraQueryException {
+    return new StatesWithMoreTransientMatcher();
+  }
+  
+  private final static int POSITION_STATE = 0;
+  
+  private final static Logger LOGGER = ViatraQueryLoggingUtil.getLogger(StatesWithMoreTransientMatcher.class);
+  
+  /**
+   * Initializes the pattern matcher within an existing VIATRA Query engine.
+   * If the pattern matcher is already constructed in the engine, only a light-weight reference is returned.
+   * The match set will be incrementally refreshed upon updates.
+   * @param engine the existing VIATRA Query engine in which this matcher will be created.
+   * @throws ViatraQueryException if an error occurs during pattern matcher creation
+   * 
+   */
+  private StatesWithMoreTransientMatcher() throws ViatraQueryException {
+    super(querySpecification());
   }
   
   /**
@@ -193,7 +187,7 @@ public class StatesWithMoreTransientMatcher extends BaseMatcher<StatesWithMoreTr
   @Override
   protected StatesWithMoreTransientMatch tupleToMatch(final Tuple t) {
     try {
-    	return StatesWithMoreTransientMatch.newMatch((sc.stateChart.State) t.get(POSITION_STATE));
+    	return StatesWithMoreTransientMatch.newMatch((State) t.get(POSITION_STATE));
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in tuple not properly typed!",e);
     	return null;
@@ -203,7 +197,7 @@ public class StatesWithMoreTransientMatcher extends BaseMatcher<StatesWithMoreTr
   @Override
   protected StatesWithMoreTransientMatch arrayToMatch(final Object[] match) {
     try {
-    	return StatesWithMoreTransientMatch.newMatch((sc.stateChart.State) match[POSITION_STATE]);
+    	return StatesWithMoreTransientMatch.newMatch((State) match[POSITION_STATE]);
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in array not properly typed!",e);
     	return null;
@@ -213,7 +207,7 @@ public class StatesWithMoreTransientMatcher extends BaseMatcher<StatesWithMoreTr
   @Override
   protected StatesWithMoreTransientMatch arrayToMatchMutable(final Object[] match) {
     try {
-    	return StatesWithMoreTransientMatch.newMutableMatch((sc.stateChart.State) match[POSITION_STATE]);
+    	return StatesWithMoreTransientMatch.newMutableMatch((State) match[POSITION_STATE]);
     } catch(ClassCastException e) {
     	LOGGER.error("Element(s) in array not properly typed!",e);
     	return null;
@@ -222,10 +216,10 @@ public class StatesWithMoreTransientMatcher extends BaseMatcher<StatesWithMoreTr
   
   /**
    * @return the singleton instance of the query specification of this pattern
-   * @throws IncQueryException if the pattern definition could not be loaded
+   * @throws ViatraQueryException if the pattern definition could not be loaded
    * 
    */
-  public static IQuerySpecification<StatesWithMoreTransientMatcher> querySpecification() throws IncQueryException {
+  public static IQuerySpecification<StatesWithMoreTransientMatcher> querySpecification() throws ViatraQueryException {
     return StatesWithMoreTransientQuerySpecification.instance();
   }
 }

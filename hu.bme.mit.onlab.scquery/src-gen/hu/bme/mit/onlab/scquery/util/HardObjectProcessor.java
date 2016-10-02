@@ -1,7 +1,10 @@
+/**
+ * Generated from platform:/resource/hu.bme.mit.onlab.scquery/src/hu/bme/mit/onlab/scquery/querys.vql
+ */
 package hu.bme.mit.onlab.scquery.util;
 
 import hu.bme.mit.onlab.scquery.HardObjectMatch;
-import org.eclipse.incquery.runtime.api.IMatchProcessor;
+import org.eclipse.viatra.query.runtime.api.IMatchProcessor;
 import sc.stateChart.State;
 
 /**
