@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stateChart:StateMachine xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stateChart="http://www.example.org/stateChart" name="Traffic light">
+  <mainRegion name="Main">
+    <transient name="Transient - Fail" source="//@mainRegion/@vertex.1/@element.0/@vertex.3" target="//@mainRegion/@vertex.1"/>
+    <vertex xsi:type="stateChart:SimpleState" name="Off" action="Blink yellow"/>
+    <vertex xsi:type="stateChart:CompositeState" name="On" action="">
+      <element name="On">
+        <transient name="T1" trigger="" source="//@mainRegion/@vertex.1/@element.0/@vertex.3" target="//@mainRegion/@vertex.1/@element.0/@vertex.2"/>
+        <transient name="T2" effect="" source="//@mainRegion/@vertex.1/@element.0/@vertex.2" target="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.1/@vertex.0"/>
+        <transient name="T3" trigger="CarIn" source="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.0/@vertex.2" target="//@mainRegion/@vertex.1/@element.0/@vertex.1"/>
+        <transient name="T4" source="//@mainRegion/@vertex.1/@element.0/@vertex.1" target="//@mainRegion/@vertex.1/@element.0/@vertex.3"/>
+        <vertex xsi:type="stateChart:CompositeState" name="Red">
+          <element name="Count">
+            <transient name="Entry" effect="" source="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.0/@vertex.3" target="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.0/@vertex.0"/>
+            <transient name="Carin1" trigger="CarIn" source="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.0/@vertex.0" target="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.0/@vertex.1"/>
+            <transient name="Carin2" trigger="CarIn" source="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.0/@vertex.1" target="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.0/@vertex.2"/>
+            <vertex xsi:type="stateChart:SimpleState" name="Red - Count 0"/>
+            <vertex xsi:type="stateChart:SimpleState" name="Red - Count 1"/>
+            <vertex xsi:type="stateChart:SimpleState" name="Red - Count 2"/>
+            <vertex xsi:type="stateChart:PseudoState" note="" name="Red - EntryPoint" PseudoStateType="EntryPoint"/>
+            <vertex xsi:type="stateChart:PseudoState" name="EP - MultipleTest" PseudoStateType="EntryPoint"/>
+          </element>
+          <element name="Camera">
+            <transient name="CarGo" trigger="CarGo" effect="" source="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.1/@vertex.1" target="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.1/@vertex.2"/>
+            <transient name="GoBack" trigger="" source="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.1/@vertex.2" target="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.1/@vertex.1"/>
+            <transient name="TurnOff" trigger="ManualOff" source="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.1/@vertex.1" target="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.1/@vertex.3"/>
+            <transient name="TurnOn" trigger="ManualOn" source="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.1/@vertex.3" target="//@mainRegion/@vertex.1/@element.0/@vertex.0/@element.1/@vertex.1"/>
+            <vertex xsi:type="stateChart:PseudoState" name="Red - History" PseudoStateType="ShadowHistory"/>
+            <vertex xsi:type="stateChart:SimpleState" name="Red - CameraOn" action=""/>
+            <vertex xsi:type="stateChart:SimpleState" name="Red - CameraShoot" entry="Make picture" exit=""/>
+            <vertex xsi:type="stateChart:SimpleState" name="Red - CameraOff" entry="" exit="" action=""/>
+          </element>
+        </vertex>
+        <vertex xsi:type="stateChart:SimpleState" name="Red - Yellow"/>
+        <vertex xsi:type="stateChart:SimpleState" name="Yellow"/>
+        <vertex xsi:type="stateChart:SimpleState" name="Green"/>
+      </element>
+    </vertex>
+    <vertex xsi:type="stateChart:PseudoState" name="TestTerminate" PseudoStateType="Terminate"/>
+  </mainRegion>
+</stateChart:StateMachine>

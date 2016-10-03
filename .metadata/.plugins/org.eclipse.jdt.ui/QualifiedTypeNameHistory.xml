@@ -3,4 +3,19 @@
 <fullyQualifiedTypeName name="org.eclipse.viatra.transformation.runtime.emf.rules.batch.BatchTransformationRuleFactory"/>
 <fullyQualifiedTypeName name="hu.bme.mit.onlab.scdse.StateChartCoderGenerator"/>
 <fullyQualifiedTypeName name="java.io.PrintWriter"/>
+<fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.io.FileWriter"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="sc.stateChart.StateMachine"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.eclipse.viatra.dse.statecode.IStateCoder"/>
+<fullyQualifiedTypeName name="sc.stateChart.State"/>
+<fullyQualifiedTypeName name="sc.stateChart.Transient"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.common.notify.Notifier"/>
+<fullyQualifiedTypeName name="sc.stateChart.Vertex"/>
+<fullyQualifiedTypeName name="java.util.Collections"/>
+<fullyQualifiedTypeName name="java.util.Comparator"/>
+<fullyQualifiedTypeName name="org.eclipse.viatra.query.runtime.api.IPatternMatch"/>
+<fullyQualifiedTypeName name="hu.bme.mit.onlab.scquery.ActiveStateMatch"/>
+<fullyQualifiedTypeName name="org.eclipse.viatra.dse.api.DSEException"/>
 </qualifiedTypeNameHistroy>

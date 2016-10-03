@@ -1,0 +1,22 @@
+StateChartCoder:
+
+Number of solutions: 1
+Solution: Active states: Shut down,
+  Trajectory: Create - Start | Start - Resume | Resume - Running | Running - Pause | Pause - Stop | Stop - Destroy | Destroy - Shut down | | Fitness: {MyHardObjective=1.0} hardObjectives=true
+
+TestCoderOne:
+gen.listAllState(false);
+gen.setSeparator('-');
+
+Number of solutions: 1
+Solution: Active states: Shut down-
+  Trajectory: Create - Start | Start - Resume | Resume - Running | Running - Pause | Pause - Stop | Stop - Destroy | Destroy - Shut down | | Fitness: {MyHardObjective=1.0} hardObjectives=true
+
+TestCoderTwo:
+gen.listAllState(true);
+gen.setSeparator('÷');
+
+Number of solutions: 1
+Solution: Active states: Shut down÷Inactive states: Killed÷Running÷Start÷onCreate÷onDestroy÷onPause÷onRestart÷onResume÷onStart÷onStop÷
+  Trajectory: Create - Start | Start - Resume | Resume - Running | Running - Pause | Pause - Stop | Stop - Destroy | Destroy - Shut down | | Fitness: {MyHardObjective=1.0} hardObjectives=true
+

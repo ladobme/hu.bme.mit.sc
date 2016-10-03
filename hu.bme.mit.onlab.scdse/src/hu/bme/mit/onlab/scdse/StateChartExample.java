@@ -1,6 +1,9 @@
 package hu.bme.mit.onlab.scdse;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
@@ -38,7 +41,7 @@ public class StateChartExample {
 
 	    // Get the resource
 	    Resource resource = resSet.getResource(URI
-	        .createFileURI("D:\\Lado\\OnLab\\StateChart\\runtime-EclipseApplication\\SCProject\\hu.bme.mit.onlab.statechart"), true);
+	        .createFileURI("C:\\Repository\\hu.bme.mit.sc\\runtime-EclipseApplication\\SCProject\\hu.bme.mit.onlab.statechart"), true);
 	    // Get the first model element and cast it to the right type, in my
 	    // example everything is hierarchical included in this first node
 	    root = (StateMachine) resource.getContents().get(0);
@@ -46,18 +49,21 @@ public class StateChartExample {
 	    dse = new DesignSpaceExplorer();
 	    dse.setInitialModel(root);
 	    dse.addMetaModelPackage(root.eClass().getEPackage());
-	    dse.setStateCoderFactory(new StateChartCoderFactory());
+	    dse.setStateCoderFactory(new TestCoderOneFactory());
 	    
 	    StateChartCoderGenerator gen = new StateChartCoderGenerator();
-	    gen.listAllState(false);
-	    gen.setSeparator('-');
+	    gen.listAllState(true);
+	    gen.setSeparator('÷');
 	    try {
-			PrintWriter out = new PrintWriter("teszt.txt");
-			out.println(gen.createCoder("GeneratedCoder"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			File file = new File("test2.txt");
+			FileWriter fileWriter = new FileWriter(file);
+			fileWriter.write(gen.createCoder("TestCoderTwo"));
+			fileWriter.flush();
+			fileWriter.close();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	    
 
 	    
 	    /* - old activeStateRule
@@ -70,8 +76,7 @@ public class StateChartExample {
 						pActivestate.setIsActive(false);
 						pTransient.getTarget().setIsActive(true);
 					}
-	            });*/
-	    		 
+	            });*/		 
 	    dse.addTransformationRule(new ScRuleProvider().activeStateRule);
 	    
 	    /*dse.addObjective(new BaseObjective("MyHardObjective")

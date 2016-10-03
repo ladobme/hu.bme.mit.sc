@@ -19,6 +19,18 @@ class StateChartCoderGenerator {
 	
 	def public String createCoder(String name){
 		'''
+		import java.util.ArrayList;
+		import java.util.Collections;
+		import java.util.Comparator;
+		
+		import org.eclipse.emf.common.notify.Notifier;
+		import org.eclipse.viatra.dse.api.DSEException;
+		import org.eclipse.viatra.dse.statecode.IStateCoder;
+		import org.eclipse.viatra.query.runtime.api.IPatternMatch;
+		
+		import hu.bme.mit.onlab.scquery.ActiveStateMatch;
+		import sc.stateChart.*;
+		
 			public class «name» implements IStateCoder {
 			
 			private StateMachine model;
@@ -33,7 +45,7 @@ class StateChartCoderGenerator {
 				for (Vertex state : model.getMainRegion().getVertex()){
 					states.add((State)state);
 				}
-				«IF sort»Collections.sort(sortedStates, new Comparator<State>(){
+				«IF sort»Collections.sort(states, new Comparator<State>(){
 
 					@Override
 					public int compare(State s1, State s2) {
@@ -44,7 +56,7 @@ class StateChartCoderGenerator {
 				for (Transient tr : model.getMainRegion().getTransient()){
 					transients.add(tr);
 				}
-				«IF sort»Collections.sort(sortedTransients, new Comparator<Transient>(){
+				«IF sort»Collections.sort(transients, new Comparator<Transient>(){
 					@Override
 					public int compare(Transient t1, Transient t2) {
 						return t1.getName().compareTo(t2.getName());
@@ -59,7 +71,7 @@ class StateChartCoderGenerator {
 				for (State state : states){
 					if (state.isIsActive()){
 						sb.append(state.getName());
-						sb.append(«separator»);
+						sb.append('«separator»');
 					}
 				}
 				«IF listAllState»
@@ -67,7 +79,7 @@ class StateChartCoderGenerator {
 				for (State state : states){
 					if (!state.isIsActive()){
 						sb.append(state.getName());
-						sb.append(«separator»);
+						sb.append('«separator»');
 					}
 				}
 				«ENDIF»

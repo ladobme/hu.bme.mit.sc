@@ -24,6 +24,27 @@ public class StateChartCoderGenerator {
   
   public String createCoder(final String name) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("import java.util.ArrayList;");
+    _builder.newLine();
+    _builder.append("import java.util.Collections;");
+    _builder.newLine();
+    _builder.append("import java.util.Comparator;");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("import org.eclipse.emf.common.notify.Notifier;");
+    _builder.newLine();
+    _builder.append("import org.eclipse.viatra.dse.api.DSEException;");
+    _builder.newLine();
+    _builder.append("import org.eclipse.viatra.dse.statecode.IStateCoder;");
+    _builder.newLine();
+    _builder.append("import org.eclipse.viatra.query.runtime.api.IPatternMatch;");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("import hu.bme.mit.onlab.scquery.ActiveStateMatch;");
+    _builder.newLine();
+    _builder.append("import sc.stateChart.*;");
+    _builder.newLine();
+    _builder.newLine();
     _builder.append("\t");
     _builder.append("public class ");
     _builder.append(name, "\t");
@@ -67,7 +88,7 @@ public class StateChartCoderGenerator {
     _builder.append("\t\t");
     {
       if (this.sort) {
-        _builder.append("Collections.sort(sortedStates, new Comparator<State>(){");
+        _builder.append("Collections.sort(states, new Comparator<State>(){");
         _builder.newLineIfNotEmpty();
         _builder.newLine();
         _builder.append("\t\t");
@@ -106,7 +127,7 @@ public class StateChartCoderGenerator {
     _builder.append("\t\t");
     {
       if (this.sort) {
-        _builder.append("Collections.sort(sortedTransients, new Comparator<Transient>(){");
+        _builder.append("Collections.sort(transients, new Comparator<Transient>(){");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("\t");
@@ -155,9 +176,9 @@ public class StateChartCoderGenerator {
     _builder.append("sb.append(state.getName());");
     _builder.newLine();
     _builder.append("\t\t\t\t");
-    _builder.append("sb.append(");
+    _builder.append("sb.append(\'");
     _builder.append(this.separator, "\t\t\t\t");
-    _builder.append(");");
+    _builder.append("\');");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t");
     _builder.append("}");
@@ -183,9 +204,9 @@ public class StateChartCoderGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("\t\t");
-        _builder.append("sb.append(");
+        _builder.append("sb.append(\'");
         _builder.append(this.separator, "\t\t\t\t");
-        _builder.append(");");
+        _builder.append("\');");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("\t");
