@@ -42,3 +42,5 @@
 /HigherPriorityTransientQuerySpecification.java
 /RegionWithMultipleEntryPointProcessor.java
 /RegionWithMultipleEntryPointQuerySpecification.java
+/.StateProcessor.java._trace
+/.StateQuerySpecification.java._trace

@@ -10,6 +10,8 @@ public class StateChartCoderGenerator {
   
   private boolean listAllState = false;
   
+  private String nameOfActivationMatch;
+  
   public void listAllState(final boolean listAll) {
     this.listAllState = listAll;
   }
@@ -20,6 +22,10 @@ public class StateChartCoderGenerator {
   
   public void setSort(final boolean s) {
     this.sort = s;
+  }
+  
+  public void setUsedActivationMatch(final String match) {
+    this.nameOfActivationMatch = match;
   }
   
   public String createCoder(final String name) {
@@ -231,11 +237,16 @@ public class StateChartCoderGenerator {
     _builder.append("public Object createActivationCode(IPatternMatch match) {");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("if (match instanceof ActiveStateMatch){");
-    _builder.newLine();
+    _builder.append("if (match instanceof ");
+    _builder.append(this.nameOfActivationMatch, "\t\t");
+    _builder.append("){");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t");
-    _builder.append("ActiveStateMatch asm = (ActiveStateMatch) match;");
-    _builder.newLine();
+    _builder.append(this.nameOfActivationMatch, "\t\t\t");
+    _builder.append(" asm = (");
+    _builder.append(this.nameOfActivationMatch, "\t\t\t");
+    _builder.append(") match;");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t");
     _builder.append("return asm.getTransient().getName();");
     _builder.newLine();

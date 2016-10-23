@@ -50,14 +50,14 @@ import sc.stateChart.*;
 		for (State state : states){
 			if (state.isIsActive()){
 				sb.append(state.getName());
-				sb.append('÷');
+				sb.append(';');
 			}
 		}
 		sb.append("Inactive states: ");
 		for (State state : states){
 			if (!state.isIsActive()){
 				sb.append(state.getName());
-				sb.append('÷');
+				sb.append(';');
 			}
 		}
 		return sb.toString();

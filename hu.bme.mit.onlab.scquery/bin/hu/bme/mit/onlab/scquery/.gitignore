@@ -44,3 +44,6 @@
 /Querys.java
 /RegionWithMultipleEntryPointMatch.java
 /RegionWithMultipleEntryPointMatcher.java
+/.GeneratedQuery.java._trace
+/.StateMatch.java._trace
+/.StateMatcher.java._trace

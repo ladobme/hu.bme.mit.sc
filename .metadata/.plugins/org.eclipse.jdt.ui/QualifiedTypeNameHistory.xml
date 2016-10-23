@@ -18,4 +18,12 @@
 <fullyQualifiedTypeName name="org.eclipse.viatra.query.runtime.api.IPatternMatch"/>
 <fullyQualifiedTypeName name="hu.bme.mit.onlab.scquery.ActiveStateMatch"/>
 <fullyQualifiedTypeName name="org.eclipse.viatra.dse.api.DSEException"/>
+<fullyQualifiedTypeName name="sc.stateChart.StateChartPackage"/>
+<fullyQualifiedTypeName name="org.eclipse.viatra.query.runtime.api.ViatraQueryEngine"/>
+<fullyQualifiedTypeName name="org.eclipse.viatra.query.runtime.emf.EMFScope"/>
+<fullyQualifiedTypeName name="hu.bme.mit.onlab.scquery.StateMatcher"/>
+<fullyQualifiedTypeName name="java.util.Collection"/>
+<fullyQualifiedTypeName name="hu.bme.mit.onlab.scquery.StateMatch"/>
+<fullyQualifiedTypeName name="sc.stateChart.StateChartPackage.Literals"/>
+<fullyQualifiedTypeName name="org.eclipse.emf.ecore.EClass"/>
 </qualifiedTypeNameHistroy>

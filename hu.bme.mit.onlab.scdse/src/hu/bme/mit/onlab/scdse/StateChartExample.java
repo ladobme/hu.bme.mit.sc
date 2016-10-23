@@ -1,10 +1,6 @@
 package hu.bme.mit.onlab.scdse;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Collection;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -16,11 +12,16 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.eclipse.viatra.dse.api.DesignSpaceExplorer;
 import org.eclipse.viatra.dse.api.Objectives;
 import org.eclipse.viatra.dse.api.Strategies;
+import org.eclipse.viatra.query.runtime.api.ViatraQueryEngine;
+import org.eclipse.viatra.query.runtime.emf.EMFScope;
 import org.eclipse.viatra.query.runtime.exception.ViatraQueryException;
 import org.eclipse.viatra.transformation.runtime.emf.rules.batch.BatchTransformationRuleFactory;
 import org.junit.Test;
 
+import hu.bme.mit.onlab.scquery.StateMatch;
+import hu.bme.mit.onlab.scquery.StateMatcher;
 import hu.bme.mit.onlab.scquery.util.HardObjectQuerySpecification;
+import sc.stateChart.StateChartPackage;
 import sc.stateChart.StateMachine;
 
 public class StateChartExample {
@@ -44,48 +45,28 @@ public class StateChartExample {
 	        .createFileURI("C:\\Repository\\hu.bme.mit.sc\\runtime-EclipseApplication\\SCProject\\hu.bme.mit.onlab.statechart"), true);
 	    // Get the first model element and cast it to the right type, in my
 	    // example everything is hierarchical included in this first node
+	    
 	    root = (StateMachine) resource.getContents().get(0);
 	    
-	    dse = new DesignSpaceExplorer();
+	    // VQuery block
+	    ViatraQueryEngine engine = ViatraQueryEngine.on(new EMFScope(resource));
+	    StateMatcher matcher = StateMatcher.on(engine);
+	    Collection<StateMatch> matches = matcher.getAllMatches();
+	    for(StateMatch match : matches)
+	    	System.out.println(match.getState());
+	    
+/*	    DSE block
+ 		dse = new DesignSpaceExplorer();
 	    dse.setInitialModel(root);
 	    dse.addMetaModelPackage(root.eClass().getEPackage());
-	    dse.setStateCoderFactory(new TestCoderOneFactory());
-	    
-	    StateChartCoderGenerator gen = new StateChartCoderGenerator();
-	    gen.listAllState(true);
-	    gen.setSeparator('÷');
-	    try {
-			File file = new File("test2.txt");
-			FileWriter fileWriter = new FileWriter(file);
-			fileWriter.write(gen.createCoder("TestCoderTwo"));
-			fileWriter.flush();
-			fileWriter.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	    
-
-	    
-	    /* - old activeStateRule
-	     * activeStateRule = new DSETransformationRule<ActiveStateMatch, ActiveStateMatcher>(
-	    		ActiveStateQuerySpecification.instance(), new ActiveStateProcessor() {
-
-					@Override
-					public void process(State pActivestate, Transient pTransient) {
-						// TODO Auto-generated method stub
-						pActivestate.setIsActive(false);
-						pTransient.getTarget().setIsActive(true);
-					}
-	            });*/		 
+	    dse.setStateCoderFactory(new TestCoderOneFactory());	 
 	    dse.addTransformationRule(new ScRuleProvider().activeStateRule);
 	    
-	    /*dse.addObjective(new BaseObjective("MyHardObjective")
-	    	    .withConstraint(HardObjectQuerySpecification.instance()));*/
 	    dse.addObjective(Objectives.createConstraintsObjective("MyHardObjective")
 	    		.withHardConstraint(HardObjectQuerySpecification.instance()));
 	    
 	    dse.startExploration(Strategies.createBfsStrategy());
-	    System.out.println(dse.toStringSolutions());
+	    System.out.println(dse.toStringSolutions());*/
 	    
 	}
 }

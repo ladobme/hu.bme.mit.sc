@@ -4,6 +4,7 @@ class StateChartCoderGenerator {
 	char separator=';';
 	boolean sort=true;
 	boolean listAllState=false;
+	String nameOfActivationMatch;
 	
 	def public void listAllState(boolean listAll){
 		listAllState=listAll;
@@ -15,6 +16,10 @@ class StateChartCoderGenerator {
 	
 	def public void setSort(boolean s){
 		sort=s;
+	}
+	
+	def public void setUsedActivationMatch(String match){
+		nameOfActivationMatch = match;
 	}
 	
 	def public String createCoder(String name){
@@ -88,8 +93,8 @@ class StateChartCoderGenerator {
 		
 			@Override
 			public Object createActivationCode(IPatternMatch match) {
-				if (match instanceof ActiveStateMatch){
-					ActiveStateMatch asm = (ActiveStateMatch) match;
+				if (match instanceof «nameOfActivationMatch»){
+					«nameOfActivationMatch» asm = («nameOfActivationMatch») match;
 					return asm.getTransient().getName();
 				} else
 					throw new DSEException ("Unsupported rule.");
