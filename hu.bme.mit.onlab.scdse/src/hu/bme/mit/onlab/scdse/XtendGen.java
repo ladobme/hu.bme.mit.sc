@@ -3,25 +3,40 @@ package hu.bme.mit.onlab.scdse;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.junit.Test;
 
+import hu.bme.mit.onlab.scdse.StateChartCoderGenerator.StateCodeElement;
 import sc.stateChart.StateChartPackage;
 
 public class XtendGen {
 	
 	@Test
 	public void genFile(){
-		boolean genCoder = false;
-		boolean genQuery = true;
+		boolean genCoder = true;
+		boolean genQuery = false;
 		if(genCoder){
 			//Xtend -> File
 		    StateChartCoderGenerator gen = new StateChartCoderGenerator();
-		    gen.listAllState(true);
 		    gen.setSeparator(';');
+		    gen.setRootElement(StateChartPackage.Literals.STATE_MACHINE);
+		    gen.setPackage("sc.stateChart");
+		    gen.setUsedActivationMatch("ActiveStateMatch");
+		    ArrayList<StateCodeElement> list = new ArrayList<StateCodeElement>();
+		    StateCodeElement state = new StateCodeElement();
+		    state.setClass(StateChartPackage.Literals.STATE);
+		    state.setQueryName("State");
+		    state.addAttribute(StateChartPackage.Literals.VERTEX__IS_ACTIVE);
+		    list.add(state);
+		    gen.addStateCodeElementList(list);
+		    
 		    try {
-				File file = new File("test2.txt");
+				File file = new File("test3.txt");
 				FileWriter fileWriter = new FileWriter(file);
-				fileWriter.write(gen.createCoder("TestCoderTwo"));
+				fileWriter.write(gen.createCoder("TestCoder"));
 				fileWriter.flush();
 				fileWriter.close();
 			} catch (IOException e) {
@@ -31,9 +46,10 @@ public class XtendGen {
 		if(genQuery){
 			QueryGenerator gen = new QueryGenerator();
 		    try {
-				File file = new File("query_with_attribute.txt");
+				File file = new File("query.txt");
 				FileWriter fileWriter = new FileWriter(file);
-				fileWriter.write(gen.createQuery(StateChartPackage.eNS_URI,StateChartPackage.Literals.STATE, StateChartPackage.Literals.VERTEX__IS_ACTIVE));
+				fileWriter.write(gen.createQuery(StateChartPackage.eNS_URI,StateChartPackage.Literals.STATE));
+				System.out.println(StateChartPackage.Literals.STATE.getEPackage());
 				fileWriter.flush();
 				fileWriter.close();
 			} catch (IOException e) {

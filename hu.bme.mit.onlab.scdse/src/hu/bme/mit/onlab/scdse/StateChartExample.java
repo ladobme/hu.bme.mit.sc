@@ -1,5 +1,6 @@
 package hu.bme.mit.onlab.scdse;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -21,6 +22,7 @@ import org.junit.Test;
 import hu.bme.mit.onlab.scquery.StateMatch;
 import hu.bme.mit.onlab.scquery.StateMatcher;
 import hu.bme.mit.onlab.scquery.util.HardObjectQuerySpecification;
+import sc.stateChart.State;
 import sc.stateChart.StateChartPackage;
 import sc.stateChart.StateMachine;
 
@@ -49,24 +51,32 @@ public class StateChartExample {
 	    root = (StateMachine) resource.getContents().get(0);
 	    
 	    // VQuery block
-	    ViatraQueryEngine engine = ViatraQueryEngine.on(new EMFScope(resource));
+	    /*ViatraQueryEngine engine = ViatraQueryEngine.on(new EMFScope(resource));
 	    StateMatcher matcher = StateMatcher.on(engine);
 	    Collection<StateMatch> matches = matcher.getAllMatches();
-	    for(StateMatch match : matches)
-	    	System.out.println(match.getState());
+	    ArrayList<State> states = new ArrayList<State>();
+	    for(StateMatch match : matches){
+	    	states.add(match.getState());
+	    }
+	    for(State s : states){
+	    	if(s.isIsActive())
+	    		System.out.println("Active:"+ s.getName());
+	    	else
+	    		System.out.println("Inactive:" + s.getName());
+	    }*/
 	    
-/*	    DSE block
+	    //DSE block
  		dse = new DesignSpaceExplorer();
 	    dse.setInitialModel(root);
 	    dse.addMetaModelPackage(root.eClass().getEPackage());
-	    dse.setStateCoderFactory(new TestCoderOneFactory());	 
+	    dse.setStateCoderFactory(new TestCoderFactory());	 
 	    dse.addTransformationRule(new ScRuleProvider().activeStateRule);
 	    
 	    dse.addObjective(Objectives.createConstraintsObjective("MyHardObjective")
 	    		.withHardConstraint(HardObjectQuerySpecification.instance()));
 	    
 	    dse.startExploration(Strategies.createBfsStrategy());
-	    System.out.println(dse.toStringSolutions());*/
+	    System.out.println(dse.toStringSolutions());
 	    
 	}
 }

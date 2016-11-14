@@ -1,14 +1,17 @@
 package hu.bme.mit.onlab.scdse
 
+import org.eclipse.emf.ecore.EClass
+import java.util.ArrayList
+import org.eclipse.emf.ecore.EAttribute
+import java.util.List
+
 class StateChartCoderGenerator {
 	char separator=';';
 	boolean sort=true;
-	boolean listAllState=false;
 	String nameOfActivationMatch;
-	
-	def public void listAllState(boolean listAll){
-		listAllState=listAll;
-	}
+	EClass rootElement;
+	String rootPackage = "";
+	List<StateCodeElement> stateCodeElements = new ArrayList<StateCodeElement>;
 	
 	def public void setSeparator(char c){
 		separator=c;
@@ -22,6 +25,48 @@ class StateChartCoderGenerator {
 		nameOfActivationMatch = match;
 	}
 	
+	def public void setRootElement(EClass root){
+		rootElement = root;
+	}
+	
+	def public void setPackage(String setpackage){
+		rootPackage = setpackage;
+	}
+	
+	def public void addStateCodeElementList(List<StateCodeElement> list){
+		stateCodeElements = list;
+	}
+	
+	
+	///
+	public static class StateCodeElement {
+		EClass clazz;
+		List<EAttribute> attributes = new ArrayList<EAttribute>();
+		String queryName;
+		def getClassName() {
+			clazz.name
+		}
+		def getQueryName(){
+			queryName;
+		}
+		def getAttributes(){
+			attributes;
+		}
+		
+		def setClass(EClass eClass){
+			clazz = eClass;
+		}
+		
+		def addAttribute(EAttribute attrib){
+			attributes.add(attrib);
+		}
+		
+		def setQueryName(String name){
+			queryName = name;
+		}
+	}
+	///
+	
 	def public String createCoder(String name){
 		'''
 		import java.util.ArrayList;
@@ -34,60 +79,48 @@ class StateChartCoderGenerator {
 		import org.eclipse.viatra.query.runtime.api.IPatternMatch;
 		
 		import hu.bme.mit.onlab.scquery.ActiveStateMatch;
-		import sc.stateChart.*;
+		import «rootPackage».*;
 		
 			public class «name» implements IStateCoder {
 			
-			private StateMachine model;
-			private ArrayList <State> states;
-			private ArrayList <Transient> transients;
+			private «rootElement» model;
+			private ViatraQueryEngine engine;
+
 
 			@Override
 			public void init(Notifier notifier) {
-				model = (StateMachine) notifier;
-				
-				states = new ArrayList<State>();		
-				for (Vertex state : model.getMainRegion().getVertex()){
-					states.add((State)state);
-				}
-				«IF sort»Collections.sort(states, new Comparator<State>(){
-
-					@Override
-					public int compare(State s1, State s2) {
-						return s1.getName().compareTo(s2.getName());
-						}
-				});«ENDIF»
-				transients = new ArrayList<Transient>();
-				for (Transient tr : model.getMainRegion().getTransient()){
-					transients.add(tr);
-				}
-				«IF sort»Collections.sort(transients, new Comparator<Transient>(){
-					@Override
-					public int compare(Transient t1, Transient t2) {
-						return t1.getName().compareTo(t2.getName());
-					}
-				});«ENDIF»
+				model = («rootElement») notifier;
+				engine = getQueryEngine();
 			}
 		
 			@Override
 			public Object createStateCode() {
 				StringBuilder sb = new StringBuilder();
-				sb.append("Active states: ");
-				for (State state : states){
-					if (state.isIsActive()){
-						sb.append(state.getName());
+				StringBuilder temp = new StringBuilder();
+				////
+				«FOR element : stateCodeElements»
+					ArrayList<String> «element.stringArrayName» = new ArrayList<String>();
+					«element.getQueryName()»Matcher «element.getQueryName().toFirstLower»Matcher = «element.getQueryName()»Matcher.on(engine); 
+					for(«element.className» object : «element.getQueryName().toFirstLower»Matcher.getAllMatches()) {
+						temp = "";
+						«FOR attrib : element.getAttributes()»
+							temp.append(object.get«attrib.name»());
+							temp.append('-');
+						«ENDFOR»
+						temp.deleteCharAt(temp.length()-1);
+						«element.stringArrayName».add(temp);
+					}
+					«IF sort»
+					Collections.sort(«element.stringArrayName»);
+					«ENDIF»
+				«ENDFOR»
+
+				«FOR element : stateCodeElements»
+					for (String s : «element.stringArrayName»){
+						sb.append(s);
 						sb.append('«separator»');
 					}
-				}
-				«IF listAllState»
-				sb.append("Inactive states: ");
-				for (State state : states){
-					if (!state.isIsActive()){
-						sb.append(state.getName());
-						sb.append('«separator»');
-					}
-				}
-				«ENDIF»
+				«ENDFOR»
 				return sb.toString();
 			}
 		
@@ -99,7 +132,27 @@ class StateChartCoderGenerator {
 				} else
 					throw new DSEException ("Unsupported rule.");
 			}
+			
+			private ViatraQueryEngine getQueryEngine () throws ViatraQueryException{
+					ViatraQueryEngine engine = ViatraQueryEngine.on(new EMFScope(model.eResource()));
+					return engine;
+				}
+				
+			private ArrayList<String> sort(ArrayList<String> array){
+				Collections.sort(array, new Comparator<String>() {
+									    public int compare(String str1, String str2) {
+									        int res = String.CASE_INSENSITIVE_ORDER.compare(str1, str2);
+									        if (res == 0) {
+									            res = str1.compareTo(str2);
+									        }
+									        return res;
+									    }});
+				}
 		}
 		'''
+	}
+	
+	private def getStringArrayName(StateCodeElement element) {
+		'''«element.className»codes'''
 	}
 }

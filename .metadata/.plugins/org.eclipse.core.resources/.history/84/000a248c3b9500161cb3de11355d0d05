@@ -1,9 +1,0 @@
-package hu.bme.mit.onlab.scquery
-
-import "http://www.eclipse.org/emf/2002/Ecore";
-import "http://www.example.org/stateChart";
-
-pattern State(state:State, active)= {
-	State(state);
-	State.isActive(state, active);
-}

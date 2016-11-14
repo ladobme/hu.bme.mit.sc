@@ -1,0 +1,18 @@
+package hu.bme.mit.onlab.scdse;
+
+import java.util.Collection;
+import java.util.Comparator;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.viatra.query.runtime.api.IPatternMatch;
+import org.eclipse.viatra.query.runtime.api.impl.BaseMatcher;
+import org.eclipse.viatra.query.runtime.api.impl.BasePatternMatch;
+
+public interface ElementContainer {
+	
+	public String getName();
+	public boolean setMatcher(BaseMatcher<IPatternMatch> matcher);
+	public Collection<BasePatternMatch> getMatches();
+	public void setComparator(Comparator<EObject> comparator);
+	public boolean modelElement();
+}

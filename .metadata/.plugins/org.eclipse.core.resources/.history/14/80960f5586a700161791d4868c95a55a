@@ -1,0 +1,143 @@
+package hu.bme.mit.onlab.scdse
+
+import org.eclipse.emf.ecore.EClass
+import java.util.ArrayList
+
+class StateChartCoderGenerator {
+	char separator=';';
+	boolean sort=true;
+	String nameOfActivationMatch;
+	EClass rootElement;
+	String rootName = "";
+	String rootPackage = "";
+	ArrayList <ElementContainer> elements;
+	
+	def public void listAllState(boolean listAll){
+		listAllState=listAll;
+	}
+	
+	def public void setSeparator(char c){
+		separator=c;
+	}
+	
+	def public void setSort(boolean s){
+		sort=s;
+	}
+	
+	def public void setUsedActivationMatch(String match){
+		nameOfActivationMatch = match;
+	}
+	
+	def public void setRootElementName(EClass root){
+		rootElement = root;
+		rootName = root.getName();
+	}
+	
+	def public void setPackage(String setpackage){
+		rootPackage = setpackage;
+	}
+	
+	def public void addElement(ElementContainer ec){
+		elements.add(ec);
+	}
+	
+	def public String createCoder(String name){
+		'''
+		import java.util.ArrayList;
+		import java.util.Collections;
+		import java.util.Comparator;
+		
+		import org.eclipse.emf.common.notify.Notifier;
+		import org.eclipse.viatra.dse.api.DSEException;
+		import org.eclipse.viatra.dse.statecode.IStateCoder;
+		import org.eclipse.viatra.query.runtime.api.IPatternMatch;
+		
+		import hu.bme.mit.onlab.scquery.ActiveStateMatch;
+		import «rootPackage».*;
+		
+			public class «name» implements IStateCoder {
+			
+			private «rootElement» model;
+			
+			«FOR element: elements»
+				«IF element.modelElement()»
+				private ArrayList <«element.getName()»> «element.getName().toFirstLower()»s;
+				«ENDIF»
+			«ENDFOR»
+			ViatraQueryEngine engine;
+		//	private ArrayList<ElementContainer> elements = new ArrayList<ElementContainer>()
+
+			@Override
+			public void init(Notifier notifier) {
+				model = («rootElement») notifier;
+				«FOR element: elements»
+					«IF element.modelElement()»
+						«element.getName().toFirstLower()»s = new ArrayList<«element.getName()»>();
+					«ENDIF»
+				«ENDFOR»
+				try {
+					engine = getQueryEngine();
+					 «FOR element: elements»
+					 					«IF element.modelElement()»
+					 						«element.getQueryName()»Matcher «element.getQueryName().toFirstLower()»matcher = new ArrayList<«element.getName()»>();
+					 					«ENDIF»
+					 				«ENDFOR»
+				Collection <«element.getQueryName()»Match> matches = element.getMatches();
+				
+				states = new ArrayList<State>();		
+				for (Vertex state : model.getMainRegion().getVertex()){
+					states.add((State)state);
+				}
+				«IF sort»Collections.sort(states, new Comparator<State>(){
+
+					@Override
+					public int compare(State s1, State s2) {
+						return s1.getName().compareTo(s2.getName());
+						}
+				});«ENDIF»
+				transients = new ArrayList<Transient>();
+				for (Transient tr : model.getMainRegion().getTransient()){
+					transients.add(tr);
+				}
+				«IF sort»Collections.sort(transients, new Comparator<Transient>(){
+					@Override
+					public int compare(Transient t1, Transient t2) {
+						return t1.getName().compareTo(t2.getName());
+					}
+				});«ENDIF»
+			}
+		
+			@Override
+			public Object createStateCode() {
+				StringBuilder sb = new StringBuilder();
+				sb.append("Active states: ");
+				for (State state : states){
+					if (state.isIsActive()){
+						sb.append(state.getName());
+						sb.append('«separator»');
+					}
+				}
+				«IF listAllState»
+				sb.append("Inactive states: ");
+				for (State state : states){
+					if (!state.isIsActive()){
+						sb.append(state.getName());
+						sb.append('«separator»');
+					}
+				}
+				«ENDIF»
+				return sb.toString();
+			}
+		
+			@Override
+			public Object createActivationCode(IPatternMatch match) {
+				if (match instanceof «nameOfActivationMatch»){
+					«nameOfActivationMatch» asm = («nameOfActivationMatch») match;
+					return asm.getTransient().getName();
+				} else
+					throw new DSEException ("Unsupported rule.");
+			}
+		}
+		'''
+	}
+}
